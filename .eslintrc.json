@@ -1,0 +1,36 @@
+{
+	"parser": "@typescript-eslint/parser",
+	"env": {
+		"node": true
+	},
+	"plugins": ["eslint-plugin-import-helpers"],
+	"extends": ["plugin:@typescript-eslint/recommended"],
+	"root": true,
+	"ignorePatterns": [".eslintrc.js"],
+	"rules": {
+		"no-dupe-class-members": "error",
+		"no-duplicate-imports": "error",
+		"no-extra-semi": "warn",
+		"no-mixed-spaces-and-tabs": "off",
+		"no-tabs": "off",
+		"import-helpers/order-imports": [
+			"warn",
+			{
+				"newlinesBetween": "always",
+				"groups": [
+					"/^node/",
+					"module",
+					"absolute",
+					"index",
+					"sibling",
+					"parent",
+					"/^#/"
+				],
+				"alphabetize": {
+					"order": "asc",
+					"ignoreCase": false
+				}
+			}
+		]
+	}
+}
