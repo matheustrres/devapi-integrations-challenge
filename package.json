@@ -4,7 +4,7 @@
 	"version": "1.0.0",
 	"description": "DevApi integrations technical challenge",
 	"private": true,
-	"main": "./dist/index.js",
+	"main": "./src/index.js",
 	"license": "GPL 3.0",
 	"engines": {
 		"node": ">=20.12.1",
@@ -14,11 +14,16 @@
 	"scripts": {
 		"format": "prettier --write \"{src,tests}/**/*.js\"",
 		"lint": "eslint \"{src,tests}/**/*.js\" --fix",
-		"start:prod": "node --env-file .env .",
+		"start:prod": "node --env-file=.env .",
 		"start:dev": "node --watch --env-file .env .",
 		"precommit": "lint-staged",
 		"prepare": "husky install",
 		"test": "node --test **/*.spec.js"
+	},
+	"dependencies": {
+		"@google-cloud/local-auth": "2.1.0",
+		"google-auth-library": "^9.9.0",
+		"googleapis": "105"
 	},
 	"devDependencies": {
 		"eslint": "^8.57.0",
