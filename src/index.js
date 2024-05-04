@@ -20,14 +20,14 @@ const hubSpot = new HubSpot(process.env.HUBSPOT_ACCESS_TOKEN);
 	try {
 		const { spreedsheet } = await googleSheets.getSpreedsheet({
 			spreadsheetId: '1VUP5yPfk25qgDYBB1PrpC-S5hjjGbrKOhmJ_tibeWwA',
-			range: 'Página1!A1:F6',
+			range: 'Página1!A1:E30',
 		});
 
 		const { contacts: hubSpotContacts } = await hubSpot.createContactsInBatch({
 			inputs: GoogleSheets.mapSpreedsheetContactsToHubSpot(spreedsheet),
 		});
 
-		console.log(hubSpotContacts);
+		console.log(hubSpotContacts.results);
 	} catch (error) {
 		console.error(error);
 	}
