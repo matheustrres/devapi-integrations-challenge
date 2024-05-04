@@ -24,10 +24,10 @@ const hubSpot = new HubSpot(process.env.HUBSPOT_ACCESS_TOKEN);
 		});
 
 		const { contacts: hubSpotContacts } = await hubSpot.createContactsInBatch({
-			inputs: GoogleSheets.mapContactsToHubspot(spreedsheet),
+			inputs: GoogleSheets.mapSpreedsheetContactsToHubSpot(spreedsheet),
 		});
 
-		console.log(hubSpotContacts.results);
+		console.log(hubSpotContacts);
 	} catch (error) {
 		console.error(error);
 	}

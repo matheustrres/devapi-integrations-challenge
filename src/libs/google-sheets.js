@@ -50,7 +50,7 @@ export class GoogleSheets {
 		};
 	}
 
-	static mapContactsToHubspot(spreedsheet) {
+	static mapSpreedsheetContactsToHubSpot(spreedsheet) {
 		if (!spreedsheet || !Array.isArray(spreedsheet)) {
 			throw new Error(
 				'Argument {spreedsheet} is required and must an array of items.',
