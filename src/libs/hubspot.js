@@ -54,14 +54,16 @@ export class HubSpot {
 		);
 
 		if (invalidContacts.length) {
-			for (const [index, { properties }] of invalidContacts.entries()) {
-				const missingProperties = HubSpot.#requiredContactProperties.filter(
-					(prop) => !properties[prop],
-				);
+			for (let [index, input] of inputs.entries()) {
+				if (invalidContacts.includes(input)) {
+					const missingProperties = HubSpot.#requiredContactProperties.filter(
+						(prop) => !input.properties[prop],
+					);
 
-				this.#notification.notify(
-					`Contact [${index + 1}] is missing properties: ${missingProperties.join(', ')}`,
-				);
+					this.#notification.notify(
+						`Contact [${index++}] is missing properties: ${missingProperties.join(', ')}`,
+					);
+				}
 			}
 		}
 
