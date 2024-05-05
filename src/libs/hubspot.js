@@ -54,17 +54,7 @@ export class HubSpot {
 		);
 
 		if (invalidContacts.length) {
-			for (let [index, input] of inputs.entries()) {
-				if (invalidContacts.includes(input)) {
-					const missingProperties = HubSpot.#requiredContactProperties.filter(
-						(prop) => !input.properties[prop],
-					);
-
-					this.#notification.notify(
-						`Contact [${index++}] is missing properties: ${missingProperties.join(', ')}`,
-					);
-				}
-			}
+			this.#mapMissingPropertiesForCreationBatch({ inputs, invalidContacts });
 		}
 
 		const corporateInputs = inputs.filter(({ properties }) =>
@@ -83,5 +73,25 @@ export class HubSpot {
 		return {
 			contacts,
 		};
+	}
+
+	#mapMissingPropertiesForCreationBatch({ inputs, invalidContacts }) {
+		if (!Array.isArray(inputs) || !Array.isArray(invalidContacts)) {
+			throw new TypeError(
+				'Both arguments {inputs} and {invalidContacts} are required and must be an array.',
+			);
+		}
+
+		for (let [index, input] of inputs.entries()) {
+			if (invalidContacts.includes(input)) {
+				const missingProperties = HubSpot.#requiredContactProperties.filter(
+					(prop) => !input.properties[prop],
+				);
+
+				this.#notification.notify(
+					`Contact [${index++}] is missing properties: ${missingProperties.join(', ')}`,
+				);
+			}
+		}
 	}
 }
