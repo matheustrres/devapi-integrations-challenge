@@ -21,7 +21,6 @@
 		"test": "node --test **/*.spec.js"
 	},
 	"dependencies": {
-		"@hubspot/api-client": "^11.1.0",
 		"google-auth-library": "^9.9.0",
 		"googleapis": "105"
 	},

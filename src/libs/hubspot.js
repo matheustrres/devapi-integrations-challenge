@@ -1,13 +1,13 @@
-import { Client as HubSpotClient } from '@hubspot/api-client';
-
 import { Notification } from '../core/notification/notification.js';
+import { HttpClient } from '../utils/http-client.js';
 import { isCorporateEmail } from '../utils/is-corporate-email.js';
 import { Logger } from '../utils/logger.js';
 
 export class HubSpot {
 	#logger = new Logger('HubSpot');
 
-	#client;
+	#accessToken;
+	#httpClient;
 	#notification;
 
 	static #requiredContactProperties = [
@@ -36,11 +36,10 @@ export class HubSpot {
 	constructor(accessToken, notification) {
 		HubSpot.#validate(accessToken, notification);
 
-		this.#client = new HubSpotClient({
-			accessToken,
-		});
-
+		this.#accessToken = accessToken;
 		this.#notification = notification;
+
+		this.#httpClient = new HttpClient('https://api.hubapi.com/crm');
 	}
 
 	async createContactsInBatch({ inputs }) {
@@ -53,7 +52,7 @@ export class HubSpot {
 				!HubSpot.#requiredContactProperties.every((prop) => properties[prop]),
 		);
 
-		if (invalidContacts.length) {
+		if (invalidContacts?.length) {
 			this.#mapMissingPropertiesForCreationBatch({ inputs, invalidContacts });
 		}
 
@@ -66,12 +65,38 @@ export class HubSpot {
 		this.#logger.info(`${corporateInputs.length} corporate inputs found`);
 		this.#logger.info(`${nonCorporateInputsLength} non-corporate inputs found`);
 
-		const contacts = await this.#client.crm.contacts.batchApi.create({
-			inputs: corporateInputs,
-		});
+		const mappedBody = corporateInputs.map(({ properties }) => ({
+			properties: {
+				company: properties.company,
+				firstname: properties.firstname,
+				lastname: properties.lastname,
+				email: properties.email,
+				phone: properties.phone,
+				website: properties.website,
+			},
+		}));
+
+		let hubSpotContacts;
+
+		try {
+			hubSpotContacts = await this.#httpClient.post({
+				endpoint: 'v3/objects/contacts/batch/create',
+				headers: {
+					Authorization: `Bearer ${this.#accessToken}`,
+					'Content-Type': 'application/json',
+				},
+				body: {
+					inputs: mappedBody,
+				},
+			});
+		} catch (error) {
+			this.#logger.error(error);
+
+			throw error;
+		}
 
 		return {
-			contacts,
+			contacts: hubSpotContacts,
 		};
 	}
 
