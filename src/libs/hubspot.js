@@ -48,30 +48,31 @@ export class HubSpot {
 			throw new Error('Argument {inputs} is required and must be an array.');
 		}
 
-		const corporateInputs = [];
-		const nonCorporateInputs = [];
+		const invalidContacts = inputs.filter(
+			({ properties }) =>
+				!HubSpot.#requiredContactProperties.every((prop) => properties[prop]),
+		);
 
-		inputs.forEach((input, index) => {
-			if (isCorporateEmail(input.properties.email)) {
+		if (invalidContacts.length) {
+			for (const [index, { properties }] of invalidContacts.entries()) {
 				const missingProperties = HubSpot.#requiredContactProperties.filter(
-					(prop) => !input.properties[prop],
+					(prop) => !properties[prop],
 				);
 
-				if (missingProperties.length) {
-					this.#notification.notify(
-						`Contact [${index++}] is missing properties ${missingProperties.join(', ')}`,
-					);
-				} else corporateInputs.push(input);
-			} else nonCorporateInputs.push(input);
-		});
+				this.#notification.notify(
+					`Contact [${index + 1}] is missing properties: ${missingProperties.join(', ')}`,
+				);
+			}
+		}
 
-		this.#logger.info(
-			`${corporateInputs.length} corporate inputs were found and SENT to HubSpot`,
+		const corporateInputs = inputs.filter(({ properties }) =>
+			isCorporateEmail(properties.email),
 		);
 
-		this.#logger.info(
-			`${nonCorporateInputs.length} non-corporate inputs were found and NOT SENT to HubSpot.`,
-		);
+		const nonCorporateInputsLength = inputs.length - corporateInputs.length;
+
+		this.#logger.info(`${corporateInputs.length} corporate inputs found`);
+		this.#logger.info(`${nonCorporateInputsLength} non-corporate inputs found`);
 
 		const contacts = await this.#client.crm.contacts.batchApi.create({
 			inputs: corporateInputs,
