@@ -1,6 +1,9 @@
+import { NotificationListener } from './core/notification/notification-listener.js';
+import { Notification } from './core/notification/notification.js';
 import { GoogleAuthorization } from './libs/google-auth.js';
 import { GoogleSheets } from './libs/google-sheets.js';
 import { HubSpot } from './libs/hubspot.js';
+import { Logger } from './utils/logger.js';
 
 const SPREADSHEETS_SCOPES = [
 	'https://www.googleapis.com/auth/spreadsheets',
@@ -14,7 +17,20 @@ const googleAuthorization = new GoogleAuthorization({
 });
 
 const googleSheets = new GoogleSheets(googleAuthorization);
-const hubSpot = new HubSpot(process.env.HUBSPOT_ACCESS_TOKEN);
+
+const hubSpotNotification = new Notification();
+const hubSpotNotificationListener = new NotificationListener(
+	'HubSpotNotificationListener',
+);
+
+hubSpotNotification.addListener(hubSpotNotificationListener);
+
+const hubSpot = new HubSpot(
+	process.env.HUBSPOT_ACCESS_TOKEN,
+	hubSpotNotification,
+);
+
+const logger = new Logger('DevApi');
 
 (async () => {
 	try {
@@ -27,8 +43,8 @@ const hubSpot = new HubSpot(process.env.HUBSPOT_ACCESS_TOKEN);
 			inputs: GoogleSheets.mapSpreedsheetContactsToHubSpot(spreedsheet),
 		});
 
-		console.log(hubSpotContacts.results);
+		logger.info(`Contacts sent to HubSpot: ${hubSpotContacts.results.length}`);
 	} catch (error) {
-		console.error(error);
+		logger.error(error);
 	}
 })();

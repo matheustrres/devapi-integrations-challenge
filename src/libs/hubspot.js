@@ -1,12 +1,14 @@
 import { Client as HubSpotClient } from '@hubspot/api-client';
 
+import { Notification } from '../core/notification/notification.js';
 import { isCorporateEmail } from '../utils/is-corporate-email.js';
 import { Logger } from '../utils/logger.js';
 
 export class HubSpot {
-	#logger = new Logger(HubSpot.constructor.name);
+	#logger = new Logger('HubSpot');
 
 	#client;
+	#notification;
 
 	static #requiredContactProperties = [
 		'company',
@@ -17,20 +19,28 @@ export class HubSpot {
 		'website',
 	];
 
-	static #validate(accessToken) {
+	static #validate(accessToken, notification) {
 		if (!accessToken || typeof accessToken !== 'string') {
 			throw new TypeError(
 				'Argument {accessToken} is required and must be a string.',
 			);
 		}
+
+		if (!notification || !(notification instanceof Notification)) {
+			throw new TypeError(
+				'Argument {notification} is required and must be an instance of Notification.',
+			);
+		}
 	}
 
-	constructor(accessToken) {
-		HubSpot.#validate(accessToken);
+	constructor(accessToken, notification) {
+		HubSpot.#validate(accessToken, notification);
 
 		this.#client = new HubSpotClient({
 			accessToken,
 		});
+
+		this.#notification = notification;
 	}
 
 	async createContactsInBatch({ inputs }) {
@@ -48,24 +58,19 @@ export class HubSpot {
 				);
 
 				if (missingProperties.length) {
-					throw new Error(
-						`Input [${index++}] is missing properties ${missingProperties.join(', ')}`,
+					this.#notification.notify(
+						`Contact [${index++}] is missing properties ${missingProperties.join(', ')}`,
 					);
-				}
-
-				corporateInputs.push(input);
-			} else {
-				nonCorporateInputs.push(input);
-			}
+				} else corporateInputs.push(input);
+			} else nonCorporateInputs.push(input);
 		});
 
 		this.#logger.info(
-			`${corporateInputs.length} corporate inputs were found and sent to HubSpot`,
+			`${corporateInputs.length} corporate inputs were found and SENT to HubSpot`,
 		);
 
 		this.#logger.info(
-			`${nonCorporateInputs.length} non-corporate inputs were found and not sent to HubSpot.`,
-			nonCorporateInputs,
+			`${nonCorporateInputs.length} non-corporate inputs were found and NOT SENT to HubSpot.`,
 		);
 
 		const contacts = await this.#client.crm.contacts.batchApi.create({
