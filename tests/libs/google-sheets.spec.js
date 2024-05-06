@@ -35,4 +35,19 @@ describe('GoogleSheets', () => {
 			},
 		);
 	});
+
+	it('should throw if an invalid range is provided', async () => {
+		const { sut } = makeSUT();
+
+		rejects(
+			() =>
+				sut.getSpreedsheet({
+					spreadsheetId: '1VUP5yPfk25qgDYBB1PrpC-S5hjjGbrKOhmJ_tibeWwA',
+					range: 'Data!A2:F14',
+				}),
+			{
+				message: 'Unable to parse range: Data!A2:F14',
+			},
+		);
+	});
 });
