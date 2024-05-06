@@ -1,34 +1,23 @@
-import { google } from 'googleapis';
-
-import { GoogleAuthorization } from './google-auth.js';
+import { generateQueryParams } from '../utils/funcs/gen-query-params.js';
+import { HttpClient } from '../utils/http-client.js';
 
 export class GoogleSheets {
-	#googleAuthorization;
+	#httpClient;
+	#googleApiKey;
 
-	static #validate(googleAuthorization) {
-		if (
-			!googleAuthorization ||
-			!(googleAuthorization instanceof GoogleAuthorization)
-		) {
+	static #validate(googleApiKey) {
+		if (!googleApiKey || typeof googleApiKey !== 'string') {
 			throw new TypeError(
-				'Argument {googleAuthorization} is required and must be an instance of GoogleAuthorization.',
+				'Argument {googleApiKey} is required and must be a string.',
 			);
 		}
 	}
 
-	constructor(googleAuthorization) {
-		GoogleSheets.#validate(googleAuthorization);
+	constructor({ googleApiKey }) {
+		GoogleSheets.#validate(googleApiKey);
 
-		this.#googleAuthorization = googleAuthorization;
-	}
-
-	async #getSpreedsheetsService() {
-		const authClient = await this.#googleAuthorization.getClient();
-
-		return google.sheets({
-			version: 'v4',
-			auth: authClient,
-		}).spreadsheets;
+		this.#httpClient = new HttpClient('https://sheets.googleapis.com');
+		this.#googleApiKey = googleApiKey;
 	}
 
 	async getSpreedsheet({ spreadsheetId, range }) {
@@ -38,36 +27,45 @@ export class GoogleSheets {
 			);
 		}
 
-		const spreedsheetsService = await this.#getSpreedsheetsService();
-
-		const spreedsheet = await spreedsheetsService.values.get({
-			spreadsheetId,
-			range,
+		const params = generateQueryParams({
+			ranges: range,
+			includeGridData: true,
+			key: this.#googleApiKey,
 		});
 
+		const spreedsheet = await this.#httpClient.get({
+			endpoint: `/v4/spreadsheets/${spreadsheetId}?${params}`,
+		});
+
+		if (spreedsheet.error) {
+			throw new Error(spreedsheet.error.message);
+		}
+
 		return {
-			spreedsheet: spreedsheet.data.values,
+			spreedsheet: spreedsheet.sheets[0].data[0].rowData,
 		};
 	}
 
 	static mapSpreedsheetContactsToHubSpot(spreedsheet) {
 		if (!spreedsheet || !Array.isArray(spreedsheet)) {
 			throw new Error(
-				'Argument {spreedsheet} is required and must an array of items.',
+				'Argument {spreedsheet} is required and must be an array.',
 			);
 		}
 
 		const withoutHeaders = spreedsheet.slice(1);
 
-		return withoutHeaders.map((row) => ({
-			properties: {
-				company: row[0],
-				firstname: row[1].split(' ')[0],
-				lastname: row[1].split(' ')[1],
-				email: row[2],
-				phone: row[3],
-				website: row[4],
-			},
-		}));
+		return withoutHeaders.map(({ values: rowValue }) => {
+			return {
+				properties: {
+					company: rowValue[0].formattedValue,
+					firstname: rowValue[1].formattedValue.split(' ')[0],
+					lastname: rowValue[1].formattedValue.split(' ')[1],
+					email: rowValue[2].formattedValue,
+					phone: rowValue[3].formattedValue,
+					website: rowValue[4].formattedValue,
+				},
+			};
+		});
 	}
 }
