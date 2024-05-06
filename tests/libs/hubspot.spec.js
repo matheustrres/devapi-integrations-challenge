@@ -10,4 +10,11 @@ describe('HubSpot', () => {
 			message: 'Argument {accessToken} is required and must be a string.',
 		});
 	});
+
+	it('should throw if required argument notification is not provided', () => {
+		throws(() => new HubSpot('random_access_token'), {
+			message:
+				'Argument {notification} is required and must be an instance of Notification.',
+		});
+	});
 });
