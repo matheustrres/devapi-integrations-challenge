@@ -1,13 +1,18 @@
 <h1 align="center">
-  <a href="https://github.com/godevapi/vagas/tree/master/integrations">
   Desafio de integrações DevApi
   </a>
 </h1>
 
-<p align="center">Aplicação de uma integração entre o Google Sheets e o HubSpot para desafio de
+<p align="center">Aplicação de uma integração entre o Google Sheets e o HubSpot para <a href="https://github.com/godevapi/vagas/tree/master/integrations" target="_blank">desafio técnico</a> de
 processo seletivo da empresa DevApi
 
-## Variáveis de Ambiente
+<p align="center">
+  <a href="#variaveis-de-ambiente">Variáveis de ambiente</a> •
+  <a href="#rodando-localmente">Rodando localmente</a> •
+  <a href="#ferramentas-utilizadas">Ferramentas utilizadas</a> •
+</p>
+
+## Variaveis de ambiente
 
 Para rodar este projeto, você precisará das seguintes variáveis de ambiente no arquivo .env:
 
@@ -70,6 +75,12 @@ Inicie o servidor para fazer a migração de contatos do Google Sheets para o Hu
 ```bash
 pnpm start:prod
 ```
+
+## Ferramentas utilizadas
+
+- Node.js
+- Javascript
+- Bibliotecas oficiais: **[googleapis](https://www.npmjs.com/package/googleapis)**, **[google-auth-library](https://www.npmjs.com/package/google-auth-library)**, **[@hubspot/api-client](https://www.npmjs.com/package/@hubspot/api-client)**
 
 ## Licença
 
