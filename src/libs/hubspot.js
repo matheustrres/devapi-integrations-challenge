@@ -76,27 +76,21 @@ export class HubSpot {
 			},
 		}));
 
-		let hubSpotContacts;
+		const { status, results, message } = await this.#httpClient.post({
+			endpoint: 'v3/objects/contacts/batch/create',
+			headers: {
+				Authorization: `Bearer ${this.#accessToken}`,
+				'Content-Type': 'application/json',
+			},
+			body: {
+				inputs: mappedBody,
+			},
+		});
 
-		try {
-			hubSpotContacts = await this.#httpClient.post({
-				endpoint: 'v3/objects/contacts/batch/create',
-				headers: {
-					Authorization: `Bearer ${this.#accessToken}`,
-					'Content-Type': 'application/json',
-				},
-				body: {
-					inputs: mappedBody,
-				},
-			});
-		} catch (error) {
-			this.#logger.error(error);
-
-			throw error;
-		}
+		if (status === 'error') throw new Error(message);
 
 		return {
-			contacts: hubSpotContacts,
+			contacts: results,
 		};
 	}
 
