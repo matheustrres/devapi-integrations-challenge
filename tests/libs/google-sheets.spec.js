@@ -12,6 +12,12 @@ function makeSUT(googleApiKey = process.env.GOOGLE_API_KEY) {
 }
 
 describe('GoogleSheets', () => {
+	it('should throw if argument googleApiKey is not provided', () => {
+		throws(() => new GoogleSheets({}), {
+			message: 'Argument {googleApiKey} is required and must be a string.',
+		});
+	});
+
 	describe('.getSpreedsheet', () => {
 		it('should throw if required arguments are not provided', () => {
 			const { sut } = makeSUT();
