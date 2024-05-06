@@ -1,6 +1,6 @@
 import { Notification } from '../core/notification/notification.js';
+import { isCorporateEmail } from '../utils/funcs/is-corporate-email.js';
 import { HttpClient } from '../utils/http-client.js';
-import { isCorporateEmail } from '../utils/is-corporate-email.js';
 import { Logger } from '../utils/logger.js';
 
 export class HubSpot {
