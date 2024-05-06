@@ -29,11 +29,11 @@ const logger = new Logger('DevApi');
 			range: 'Página1!A1:E30',
 		});
 
-		const { contacts: hubSpotContacts } = await hubSpot.createContactsInBatch({
+		const { contacts } = await hubSpot.createContactsInBatch({
 			inputs: GoogleSheets.mapSpreedsheetContactsToHubSpot(spreedsheet),
 		});
 
-		logger.info(`Contacts sent to HubSpot: ${hubSpotContacts.results.length}`);
+		logger.info(`Contacts sent to HubSpot: ${contacts.length}`);
 	} catch (error) {
 		logger.error(error);
 	}
