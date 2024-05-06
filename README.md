@@ -21,33 +21,35 @@ processo seletivo da empresa DevApi
 
 ## Variaveis de ambiente
 
-Para rodar este projeto, você precisará das seguintes variáveis de ambiente no arquivo .env:
+Para rodar este projeto, você irá precisar das seguintes variáveis de ambiente:
 
-`GOOGLE_PRIVATE_KEY=""`
-
-`GOOGLE_CLIENT_EMAIL=""`
+`GOOGLE_API_KEY=""`
 
 `HUBSPOT_ACCESS_TOKEN=""`
 
-### Gerando credenciais do Google
+Lembre-se de criar seu arquivo .env corretamente:
 
-Para obter as credenciais do Google, siga o passo a passo abaixo:
+```bash
+cp -r .env.sample .env
+```
+
+### Gerando Chave de API do Google
+
+Para obter uma Chave de API do Google, siga o passo a passo abaixo:
 
 - Visite o **[Console do Google Cloud](https://console.cloud.google.com/)** e faça login com sua conta do Google.
 
-- Selecione ou crie um projeto para criar a conta de serviço, feito no canto superior esquerdo do console.
+- Selecione ou crie um novo projeto, feito no canto superior esquerdo do console.
 
 - No painel de navegação à esquerda, clique em `APIs e serviços` e, depois, em `Credenciais`.
 
-- Na aba `Credenciais`, clique em `CRIAR CREDENCIAIS`, no canto superior esquerdo, e selecione `Conta de serviço`.
+- Na aba `Credenciais`, clique em `+ CRIAR CREDENCIAIS`, no barra de navegação superior, e selecione `Chave de API`.
 
-- Após configurar e criar uma conta de serviço, gere as credenciais necessárias. Para isso, clique na conta de serviço e depois na guia `Chaves`. Em seguida, clique em `Adicionar chave`, selecione `Criar nova chave` e escolha o tipo de chave como `JSON`.
+- Copie a Chave de API gerada e cole como o valor da chave de ambiente `GOOGLE_API_KEY`, no arquivo .env.
 
-- Abra o arquivo JSON baixado, copie os valores das propriedades `"client_email"` e `"private_key"` e os repasse às variáveis `GOOGLE_CLIENT_EMAIL` e `GOOGLE_PRIVATE_KEY`, respectivamente, no arquivo .env.
+### Gerando token de acesso do HubSpot
 
-### Gerando credenciais do HubSpot
-
-Para obter as credenciais do HubSpot, siga o passo a passo abaixo:
+Para obter o token de acesso do HubSpot, siga o passo a passo abaixo:
 
 - Na sua conta **[HubSpot](https://app.hubspot.com/home)**, clique no ícone de configurações (engrenagem) na barra de navegação superior.
 
@@ -87,7 +89,6 @@ pnpm start:prod
 
 - Node.js
 - Javascript
-- Bibliotecas oficiais: **[googleapis](https://www.npmjs.com/package/googleapis)**, **[google-auth-library](https://www.npmjs.com/package/google-auth-library)**, **[@hubspot/api-client](https://www.npmjs.com/package/@hubspot/api-client)**
 
 ## Licença
 
