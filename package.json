@@ -18,7 +18,7 @@
 		"start:dev": "node --watch --env-file .env .",
 		"precommit": "lint-staged",
 		"prepare": "husky install",
-		"test": "node --test **/*.spec.js"
+		"test": "node --env-file=.env --test ./tests/**/*.spec.js"
 	},
 	"devDependencies": {
 		"eslint": "^8.57.0",
