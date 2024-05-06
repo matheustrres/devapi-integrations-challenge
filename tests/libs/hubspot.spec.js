@@ -1,9 +1,11 @@
-import { rejects, throws } from 'node:assert';
+import { deepStrictEqual, ok, rejects, strictEqual, throws } from 'node:assert';
 import { describe, it } from 'node:test';
 
 import { Notification } from '../../src/core/notification/notification.js';
+import { GoogleSheets } from '../../src/libs/google-sheets.js';
 import { HubSpot } from '../../src/libs/hubspot.js';
 import { HubSpotStub } from '../stubs/hubspot.js';
+import { hubSpotCreationBatchResult } from '../stubs/responses/hubspot-batch.js';
 
 function makeSUT(accessToken = process.env.HUBSPOT_ACCESS_TOKEN) {
 	return {
@@ -26,7 +28,7 @@ describe('HubSpot', () => {
 	});
 
 	describe('.createContactsInBatch', () => {
-		it('should throw if an array of inputs are not provided', () => {
+		it('should throw if array of inputs are not provided', () => {
 			const { sut } = makeSUT();
 
 			sut.emitInputsAreInvalidError();
@@ -34,6 +36,26 @@ describe('HubSpot', () => {
 			rejects(() => sut.createContactsInBatch({}), {
 				message: 'Argument {inputs} is required and must be an array.',
 			});
+		});
+
+		it('should create HubSpot contacts', async () => {
+			const { sut } = makeSUT();
+
+			const googleSheets = new GoogleSheets({
+				googleApiKey: process.env.GOOGLE_API_KEY,
+			});
+
+			const { spreedsheet } = await googleSheets.getSpreedsheet({
+				spreadsheetId: '1VUP5yPfk25qgDYBB1PrpC-S5hjjGbrKOhmJ_tibeWwA',
+				range: 'Página1!A1:E30',
+			});
+
+			const { contacts: result } = await sut.createContactsInBatch({
+				inputs: GoogleSheets.mapSpreedsheetContactsToHubSpot(spreedsheet),
+			});
+
+			ok(result);
+			deepStrictEqual(result.results, hubSpotCreationBatchResult);
 		});
 	});
 });
