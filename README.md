@@ -7,10 +7,17 @@
 processo seletivo da empresa DevApi
 
 <p align="center">
+  <a href="#funcionalidades">Funcionalidades</a> •
   <a href="#variaveis-de-ambiente">Variáveis de ambiente</a> •
   <a href="#rodando-localmente">Rodando localmente</a> •
   <a href="#ferramentas-utilizadas">Ferramentas utilizadas</a> •
 </p>
+
+## Funcionalidades
+
+- Integração entre as plataformas Google Sheets e HubSpot CRM
+- Autenticação de usuário nas plataformas mencionadas
+- Importação de contatos de uma planilha do Google Sheets diretamente para o HubSpot
 
 ## Variaveis de ambiente
 
