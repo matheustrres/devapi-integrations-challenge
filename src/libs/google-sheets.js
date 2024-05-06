@@ -22,7 +22,7 @@ export class GoogleSheets {
 
 	async getSpreedsheet({ spreadsheetId, range }) {
 		if (!spreadsheetId || !range) {
-			throw new Error(
+			throw new TypeError(
 				'Both arguments {spreadsheetId} and {range} are required and must be a string.',
 			);
 		}
@@ -48,7 +48,7 @@ export class GoogleSheets {
 
 	static mapSpreedsheetContactsToHubSpot(spreedsheet) {
 		if (!spreedsheet || !Array.isArray(spreedsheet)) {
-			throw new Error(
+			throw new TypeError(
 				'Argument {spreedsheet} is required and must be an array.',
 			);
 		}

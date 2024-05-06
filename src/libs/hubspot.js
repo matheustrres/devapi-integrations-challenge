@@ -43,8 +43,10 @@ export class HubSpot {
 	}
 
 	async createContactsInBatch({ inputs }) {
-		if (!Array.isArray(inputs)) {
-			throw new Error('Argument {inputs} is required and must be an array.');
+		if (!inputs || !Array.isArray(inputs)) {
+			throw new TypeError(
+				'Argument {inputs} is required and must be an array.',
+			);
 		}
 
 		const invalidContacts = inputs.filter(
