@@ -67,7 +67,9 @@ export class HubSpot {
 		this.#logger.info(`${corporateInputs.length} corporate inputs found`);
 		this.#logger.info(`${nonCorporateInputsLength} non-corporate inputs found`);
 
-		const mappedBody = corporateInputs.map(({ properties }) => properties);
+		const mappedBody = corporateInputs.map(({ properties }) => ({
+			properties: { ...properties },
+		}));
 
 		const { status, results, message } = await this.#httpClient.post({
 			endpoint: 'v3/objects/contacts/batch/create',
