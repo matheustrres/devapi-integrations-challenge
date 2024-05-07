@@ -7,10 +7,11 @@
 processo seletivo da empresa DevApi
 
 <p align="center">
-  <a href="#funcionalidades">Funcionalidades</a> •
-  <a href="#variaveis-de-ambiente">Variáveis de ambiente</a> •
-  <a href="#rodando-localmente">Rodando localmente</a> •
-  <a href="#ferramentas-utilizadas">Ferramentas utilizadas</a> •
+  <a href="#funcionalidades">• Funcionalidades</a><br>
+  <a href="#variaveis-de-ambiente">• Variáveis de ambiente</a><br>
+  <a href="#rodando-localmente">• Rodando localmente</a><br>
+  <a href="#rodando-os-testes">• Rodando os testes</a><br>
+  <a href="#ferramentas-utilizadas">• Ferramentas utilizadas</a>
 </p>
 
 ## Funcionalidades
@@ -82,8 +83,17 @@ pnpm install
 Inicie o servidor para fazer a migração de contatos do Google Sheets para o Hubspot:
 
 ```bash
-pnpm start:prod
+pnpm start
 ```
+
+## Rodando os testes
+
+Para rodar os testes, execute o seguinte comando:
+
+```bash
+pnpm test
+```
+
 
 ## Ferramentas utilizadas
 
