@@ -32,13 +32,13 @@ const logger = new Logger('DevApi');
 
 (async () => {
 	try {
-		const { spreedsheet } = await googleSheets.getSpreedsheet({
+		const { spreadsheet } = await googleSheets.getSpreadsheet({
 			spreadsheetId: '1VUP5yPfk25qgDYBB1PrpC-S5hjjGbrKOhmJ_tibeWwA',
 			range: 'Página1!A1:E30',
 		});
 
 		const { contacts } = await hubSpot.createContactsInBatch({
-			inputs: spreedsheet,
+			inputs: spreadsheet,
 		});
 
 		logger.info(`Contacts sent to HubSpot: ${contacts.length}`);

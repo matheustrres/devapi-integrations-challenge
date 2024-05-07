@@ -29,7 +29,7 @@ export class GoogleSheets {
 		this.#notification = notification;
 	}
 
-	async getSpreedsheet({ spreadsheetId, range }) {
+	async getSpreadsheet({ spreadsheetId, range }) {
 		if (!spreadsheetId || !range) {
 			throw new TypeError(
 				'Both arguments {spreadsheetId} and {range} are required and must be a string.',
@@ -48,25 +48,27 @@ export class GoogleSheets {
 
 		if (error) throw new Error(error.message);
 
-		const spreedsheet = this.#mapSpreedsheetToHubSpot(
+		console.log(sheets[0].data[0].rowData);
+
+		const spreadsheet = this.#mapSpreadsheetToHubSpot(
 			sheets[0].data[0].rowData,
 		);
 
 		return {
-			spreedsheet,
+			spreadsheet,
 		};
 	}
 
-	#mapSpreedsheetToHubSpot(spreedsheet) {
-		if (!spreedsheet || !Array.isArray(spreedsheet)) {
+	#mapSpreadsheetToHubSpot(spreadsheet) {
+		if (!spreadsheet || !Array.isArray(spreadsheet)) {
 			throw new TypeError(
-				'Argument {spreedsheet} is required and must be an array.',
+				'Argument {spreadsheet} is required and must be an array.',
 			);
 		}
 
 		const { invalidColumns, validColumns } =
-			GoogleSheets.#mapSpreedsheetColumns({
-				spreedsheet,
+			GoogleSheets.#mapSpreadsheetColumns({
+				spreadsheet,
 			});
 
 		if (invalidColumns.length) {
@@ -75,7 +77,7 @@ export class GoogleSheets {
 				{ columnIndex, missingProperties },
 			] of invalidColumns.entries()) {
 				this.#notification.notify(
-					`Spreedsheet column [${columnIndex}] is missing properties: ${missingProperties.join(', ')}`,
+					`Spreadsheet column [${columnIndex}] is missing properties: ${missingProperties.join(', ')}`,
 				);
 			}
 		}
@@ -92,20 +94,20 @@ export class GoogleSheets {
 		}));
 	}
 
-	static #mapSpreedsheetColumns({ spreedsheet }) {
-		const spreedsheetHeaders = spreedsheet[0].values.map(
+	static #mapSpreadsheetColumns({ spreadsheet }) {
+		const spreadsheetHeaders = spreadsheet[0].values.map(
 			({ formattedValue }) => formattedValue,
 		);
 
-		const spreedsheetWithoutHeaders = spreedsheet.slice(1);
+		const spreadsheetWithoutHeaders = spreadsheet.slice(1);
 
 		const invalidColumns = [];
 
-		const validColumns = spreedsheetWithoutHeaders.filter(
+		const validColumns = spreadsheetWithoutHeaders.filter(
 			(column, columnIndex) => {
 				const columnMissingProperties = [];
 
-				spreedsheetHeaders.forEach((header, headerIndex) => {
+				spreadsheetHeaders.forEach((header, headerIndex) => {
 					if (!column.values[headerIndex]?.formattedValue) {
 						columnMissingProperties.push(header);
 					}

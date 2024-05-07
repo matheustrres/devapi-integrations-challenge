@@ -45,13 +45,13 @@ describe('HubSpot', () => {
 				googleApiKey: process.env.GOOGLE_API_KEY,
 			});
 
-			const { spreedsheet } = await googleSheets.getSpreedsheet({
+			const { spreadsheet } = await googleSheets.getSpreadsheet({
 				spreadsheetId: '1VUP5yPfk25qgDYBB1PrpC-S5hjjGbrKOhmJ_tibeWwA',
 				range: 'Página1!A1:E30',
 			});
 
 			const { contacts: result } = await sut.createContactsInBatch({
-				inputs: GoogleSheets.mapSpreedsheetContactsToHubSpot(spreedsheet),
+				inputs: GoogleSheets.mapSpreadsheetContactsToHubSpot(spreadsheet),
 			});
 
 			ok(result);

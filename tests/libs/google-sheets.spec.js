@@ -18,23 +18,23 @@ describe('GoogleSheets', () => {
 		});
 	});
 
-	describe('.getSpreedsheet', () => {
+	describe('.getSpreadsheet', () => {
 		it('should throw if required arguments are not provided', () => {
 			const { sut } = makeSUT();
 
-			rejects(() => sut.getSpreedsheet({}), {
+			rejects(() => sut.getSpreadsheet({}), {
 				message:
 					'Both arguments {spreadsheetId} and {range} are required and must be a string.',
 			});
 		});
 
-		it('should throw if an invalid spreedsheet id is provided', async () => {
+		it('should throw if an invalid spreadsheet id is provided', async () => {
 			const { sut } = makeSUT();
 
 			rejects(
 				() =>
-					sut.getSpreedsheet({
-						spreadsheetId: 'invalid_spreedsheet_id',
+					sut.getSpreadsheet({
+						spreadsheetId: 'invalid_spreadsheet_id',
 						range: 'Página1!A1:E20',
 					}),
 				{
@@ -48,7 +48,7 @@ describe('GoogleSheets', () => {
 
 			rejects(
 				() =>
-					sut.getSpreedsheet({
+					sut.getSpreadsheet({
 						spreadsheetId: '1VUP5yPfk25qgDYBB1PrpC-S5hjjGbrKOhmJ_tibeWwA',
 						range: 'Data!A2:F14',
 					}),
@@ -58,23 +58,23 @@ describe('GoogleSheets', () => {
 			);
 		});
 
-		it('should get a spreedsheet', async () => {
+		it('should get a spreadsheet', async () => {
 			const { sut } = makeSUT();
 
-			const { spreedsheet } = await sut.getSpreedsheet({
+			const { spreadsheet } = await sut.getSpreadsheet({
 				spreadsheetId: '1VUP5yPfk25qgDYBB1PrpC-S5hjjGbrKOhmJ_tibeWwA',
 				range: 'Página1!A1:E20',
 			});
 
-			ok(spreedsheet);
+			ok(spreadsheet);
 			deepStrictEqual(
-				spreedsheet[0].values[0].formattedValue,
+				spreadsheet[0].values[0].formattedValue,
 				'Nome da empresa',
 			);
-			deepStrictEqual(spreedsheet[0].values[1].formattedValue, 'Nome completo');
-			deepStrictEqual(spreedsheet[0].values[2].formattedValue, 'Email');
-			deepStrictEqual(spreedsheet[0].values[3].formattedValue, 'Telefone');
-			deepStrictEqual(spreedsheet[0].values[4].formattedValue, 'Website');
+			deepStrictEqual(spreadsheet[0].values[1].formattedValue, 'Nome completo');
+			deepStrictEqual(spreadsheet[0].values[2].formattedValue, 'Email');
+			deepStrictEqual(spreadsheet[0].values[3].formattedValue, 'Telefone');
+			deepStrictEqual(spreadsheet[0].values[4].formattedValue, 'Website');
 		});
 	});
 });
