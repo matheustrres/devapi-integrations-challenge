@@ -93,11 +93,8 @@ export class HubSpot {
 			throw new TypeError('Argument {email} is required and must a string');
 		}
 
-		const allowedDomains = ['gmail.com', 'yahoo.com', 'hotmail.com'];
-
-		const domain = email.split('@')[1];
-
-		return allowedDomains.includes(domain);
+		const corporateEmailRegex = /@((gmail|yahoo|hotmail)\.com)$/i;
+		return corporateEmailRegex.test(email);
 	}
 
 	#mapMissingPropertiesForCreationBatch({ inputs, invalidContacts }) {
