@@ -7,11 +7,11 @@
 processo seletivo da empresa DevApi
 
 <p align="center">
-  <a href="#funcionalidades">• Funcionalidades</a><br>
-  <a href="#variaveis-de-ambiente">• Variáveis de ambiente</a><br>
-  <a href="#rodando-localmente">• Rodando localmente</a><br>
-  <a href="#rodando-os-testes">• Rodando os testes</a><br>
-  <a href="#ferramentas-utilizadas">• Ferramentas utilizadas</a>
+  • <a href="#funcionalidades">Funcionalidades</a><br>
+  • <a href="#variaveis-de-ambiente">Variáveis de ambiente</a><br>
+  • <a href="#rodando-localmente">Rodando localmente</a><br>
+  • <a href="#rodando-os-testes">Rodando os testes</a><br>
+  • <a href="#ferramentas-utilizadas">•Ferramentas utilizadas</a>
 </p>
 
 ## Funcionalidades
