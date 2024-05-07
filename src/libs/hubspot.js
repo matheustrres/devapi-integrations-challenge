@@ -1,5 +1,4 @@
 import { Notification } from '../core/notification/notification.js';
-import { isCorporateEmail } from '../utils/funcs/is-corporate-email.js';
 import { HttpClient } from '../utils/http-client.js';
 import { Logger } from '../utils/logger.js';
 
@@ -59,7 +58,7 @@ export class HubSpot {
 		}
 
 		const corporateInputs = inputs.filter(({ properties }) =>
-			isCorporateEmail(properties.email),
+			this.#isCorporateEmail(properties.email),
 		);
 
 		const nonCorporateInputsLength = inputs.length - corporateInputs.length;
@@ -87,6 +86,18 @@ export class HubSpot {
 		return {
 			contacts: results,
 		};
+	}
+
+	#isCorporateEmail(email) {
+		if (!email || typeof email !== 'string') {
+			throw new TypeError('Argument {email} is required and must a string');
+		}
+
+		const allowedDomains = ['gmail.com', 'yahoo.com', 'hotmail.com'];
+
+		const domain = email.split('@')[1];
+
+		return allowedDomains.includes(domain);
 	}
 
 	#mapMissingPropertiesForCreationBatch({ inputs, invalidContacts }) {
