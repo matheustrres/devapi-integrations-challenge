@@ -2,18 +2,11 @@ import { NotificationListener } from './core/notification/notification-listener.
 import { Notification } from './core/notification/notification.js';
 import { GoogleSheets } from './libs/google-sheets.js';
 import { HubSpot } from './libs/hubspot.js';
+import { SpreadsheetModel } from './models/spreadsheet.js';
 import { Logger } from './utils/logger.js';
-
-const googleSheetsNotification = new Notification();
-const googleSheetsNotificationListener = new NotificationListener(
-	'GoogleSheetsNotification',
-);
-
-googleSheetsNotification.addListener(googleSheetsNotificationListener);
 
 const googleSheets = new GoogleSheets({
 	googleApiKey: process.env.GOOGLE_API_KEY,
-	notification: googleSheetsNotification,
 });
 
 const hubSpotNotification = new Notification();
@@ -38,7 +31,7 @@ const logger = new Logger('DevApi');
 		});
 
 		const { contacts } = await hubSpot.createContactsInBatch({
-			inputs: spreadsheet,
+			inputs: new SpreadsheetModel().mapSpreadsheetToHubSpot(spreadsheet),
 		});
 
 		logger.info(`Contacts sent to HubSpot: ${contacts.length}`);
