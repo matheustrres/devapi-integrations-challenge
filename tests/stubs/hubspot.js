@@ -1,8 +1,7 @@
-import { hubSpotCreationBatchResult } from './responses/hubspot-batch.js';
-
 import { NotificationListener } from '../../src/core/notification/notification-listener.js';
 import { Notification } from '../../src/core/notification/notification.js';
 import { HubSpot } from '../../src/libs/hubspot.js';
+import { hubSpotCreationBatchResult } from '../fixtures/hubspot-batch.js';
 
 export class HubSpotStub extends HubSpot {
 	#areInputsInvalid = false;

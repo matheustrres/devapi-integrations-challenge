@@ -1,8 +1,9 @@
 import { ok, throws } from 'node:assert';
 import { describe, it } from 'node:test';
 
-import { SpreadsheetModel } from '../../src/models/spreadsheet.js';
-import { spreadsheet } from '../fixtures/spreadsheet.js';
+import { spreadsheet } from './fixtures/spreadsheet.js';
+
+import { SpreadsheetModel } from '../src/models/spreadsheet.js';
 
 describe('SpreadsheetModel', () => {
 	describe('mapSpreadsheetToHubSpot', () => {

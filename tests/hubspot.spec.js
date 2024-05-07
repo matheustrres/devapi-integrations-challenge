@@ -1,11 +1,12 @@
 import { deepStrictEqual, ok, rejects, strictEqual, throws } from 'node:assert';
 import { describe, it } from 'node:test';
 
-import { Notification } from '../../src/core/notification/notification.js';
-import { GoogleSheets } from '../../src/libs/google-sheets.js';
-import { HubSpot } from '../../src/libs/hubspot.js';
-import { HubSpotStub } from '../stubs/hubspot.js';
-import { hubSpotCreationBatchResult } from '../stubs/responses/hubspot-batch.js';
+import { hubSpotCreationBatchResult } from './fixtures/hubspot-batch.js';
+import { HubSpotStub } from './stubs/hubspot.js';
+
+import { Notification } from '../src/core/notification/notification.js';
+import { GoogleSheets } from '../src/libs/google-sheets.js';
+import { HubSpot } from '../src/libs/hubspot.js';
 
 function makeSUT(accessToken = process.env.HUBSPOT_ACCESS_TOKEN) {
 	return {

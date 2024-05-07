@@ -14,11 +14,10 @@
 	"scripts": {
 		"format": "prettier --write \"{src,tests}/**/*.js\"",
 		"lint": "eslint \"{src,tests}/**/*.js\" --fix",
-		"start:prod": "node --env-file=.env .",
-		"start:dev": "node --watch --env-file .env .",
+		"start": "node --env-file=.env .",
 		"precommit": "lint-staged",
 		"prepare": "husky install",
-		"test": "node --env-file=.env --test ./tests/**/*.spec.js"
+		"test": "node --env-file=.env --test ./tests/**.spec.js"
 	},
 	"devDependencies": {
 		"eslint": "^8.57.0",

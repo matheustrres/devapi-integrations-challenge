@@ -1,7 +1,7 @@
 import { deepStrictEqual, ok, rejects, throws } from 'node:assert';
 import { describe, it } from 'node:test';
 
-import { GoogleSheets } from '../../src/libs/google-sheets.js';
+import { GoogleSheets } from '../src/libs/google-sheets.js';
 
 function makeSUT(googleApiKey = process.env.GOOGLE_API_KEY) {
 	return {
