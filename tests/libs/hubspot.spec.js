@@ -51,7 +51,7 @@ describe('HubSpot', () => {
 			});
 
 			const { contacts: result } = await sut.createContactsInBatch({
-				inputs: GoogleSheets.mapSpreadsheetContactsToHubSpot(spreadsheet),
+				inputs: spreadsheet,
 			});
 
 			ok(result);
