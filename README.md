@@ -25,6 +25,8 @@ processo seletivo da empresa DevApi
 Para rodar este projeto, você irá precisar das seguintes variáveis de ambiente:
 
 `GOOGLE_API_KEY=""`
+`GOOGLE_SPREADSHEET_ID`="1VUP5yPfk25qgDYBB1PrpC-S5hjjGbrKOhmJ_tibeWwA"
+`GOOGLE_SPREADSHEET_RANGE`="Página1!A1:E30"
 
 `HUBSPOT_ACCESS_TOKEN=""`
 
