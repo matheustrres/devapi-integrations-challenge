@@ -5,8 +5,15 @@ import { HubSpot } from './libs/hubspot.js';
 import { SpreadsheetModel } from './models/spreadsheet.js';
 import { Logger } from './utils/logger.js';
 
+const { 
+	GOOGLE_API_KEY, 
+	GOOGLE_SPREADSHEET_ID, 
+	GOOGLE_SPREADSHEET_RANGE, 
+	HUBSPOT_ACCESS_TOKEN 
+} = process.env;
+
 const googleSheets = new GoogleSheets({
-	googleApiKey: process.env.GOOGLE_API_KEY,
+	googleApiKey: GOOGLE_API_KEY,
 });
 
 const hubSpotNotification = new Notification();
@@ -17,7 +24,7 @@ const hubSpotNotificationListener = new NotificationListener(
 hubSpotNotification.addListener(hubSpotNotificationListener);
 
 const hubSpot = new HubSpot(
-	process.env.HUBSPOT_ACCESS_TOKEN,
+	HUBSPOT_ACCESS_TOKEN,
 	hubSpotNotification,
 );
 
@@ -26,8 +33,8 @@ const logger = new Logger('DevApi');
 (async () => {
 	try {
 		const { spreadsheet } = await googleSheets.getSpreadsheet({
-			spreadsheetId: '1VUP5yPfk25qgDYBB1PrpC-S5hjjGbrKOhmJ_tibeWwA',
-			range: 'Página1!A1:E30',
+			spreadsheetId: GOOGLE_SPREADSHEET_ID,
+			range: GOOGLE_SPREADSHEET_RANGE,
 		});
 
 		const { contacts } = await hubSpot.createContactsInBatch({
