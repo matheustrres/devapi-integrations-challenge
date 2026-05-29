@@ -1,10 +1,9 @@
 <h1 align="center">
-  Desafio de integrações DevApi
+  Desafio de integrações Google Sheets e HubSpot CRM
   </a>
 </h1>
 
-<p align="center">Aplicação de uma integração entre o Google Sheets e o HubSpot para <a href="https://github.com/godevapi/vagas/tree/master/integrations" target="_blank">desafio técnico</a> de
-processo seletivo da empresa DevApi
+<p align="center">Aplicação de uma integração entre o Google Sheets e o HubSpot </p>
 
 <p align="center">
   • <a href="#funcionalidades">Funcionalidades</a><br>
@@ -67,13 +66,13 @@ Para obter o token de acesso do HubSpot, siga o passo a passo abaixo:
 Clone o projeto:
 
 ```bash
-git clone https://github.com/matheustrres/devapi-integrations-challenge.git
+git clone https://github.com/matheustrres/sheets-hubspot-integration.git
 ```
 
 Entre no diretório do projeto:
 
 ```bash
-cd devapi-integrations-challenge
+cd sheets-hubspot-integration
 ```
 
 Instale as dependências necessárias:
@@ -104,4 +103,4 @@ pnpm test
 
 ## Licença
 
-Este projeto está licenciado sob a licença **[GPL 3.0](https://github.com/matheustrres/devapi-integrations-challenge/blob/main/LICENSE)**.
+Este projeto está licenciado sob a licença **[GPL 3.0](https://github.com/matheustrres/sheets-hubspot-integration/blob/main/LICENSE)**.
